@@ -10,7 +10,79 @@
   const TEAM_BUDGET = 100000;
   const SQUAD_MAX = 7;
   const SEASON_LABELS = ["Season 1", "Season 2"];
-  const AUCTION_STORAGE_KEY = "sun-divine-auction-progress-v1";
+  const AUTH_SESSION_KEY = "sun-divine-auth-session-v1";
+  const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+
+  /**
+   * Demo: set active: false to block login and existing sessions.
+   * Passwords are plain for demo only — use a real backend for production.
+   */
+  const USERS = {
+    demo: { password: "demo", active: true },
+    pratik: { password: "pratik@123", active: true },
+  };
+
+  function getAuctionStorageKey() {
+    const raw = (() => {
+      try {
+        return localStorage.getItem(AUTH_SESSION_KEY);
+      } catch (_) {
+        return null;
+      }
+    })();
+    if (!raw) return "sun-divine-auction-progress-v1:anonymous";
+    try {
+      const s = JSON.parse(raw);
+      const u = (s && s.username && String(s.username).toLowerCase()) || "anonymous";
+      return `sun-divine-auction-progress-v1:${u}`;
+    } catch {
+      return "sun-divine-auction-progress-v1:anonymous";
+    }
+  }
+
+  function getAuthSession() {
+    try {
+      const raw = localStorage.getItem(AUTH_SESSION_KEY);
+      if (!raw) return null;
+      const s = JSON.parse(raw);
+      if (!s || !s.username || !s.loginAt) return null;
+      return { username: String(s.username).toLowerCase(), loginAt: Number(s.loginAt) };
+    } catch {
+      return null;
+    }
+  }
+
+  function saveAuthSession(username) {
+    const u = String(username).toLowerCase();
+    try {
+      localStorage.setItem(
+        AUTH_SESSION_KEY,
+        JSON.stringify({ username: u, loginAt: Date.now() })
+      );
+    } catch (_) {
+      /* private mode */
+    }
+  }
+
+  function clearAuthSession() {
+    try {
+      localStorage.removeItem(AUTH_SESSION_KEY);
+    } catch (_) {
+      /* */
+    }
+  }
+
+  function isAuthSessionFresh(session) {
+    if (!session) return false;
+    return Date.now() - session.loginAt < SESSION_TTL_MS;
+  }
+
+  function isAuthSessionValid() {
+    const s = getAuthSession();
+    if (!s || !isAuthSessionFresh(s)) return false;
+    const row = USERS[s.username];
+    return !!(row && row.active);
+  }
 
   const TEAMS = [
     { id: "t1", name: "Solar Strikers", accent: "#f59e0b" },
@@ -166,6 +238,8 @@
   }
 
   let players = [];
+  let auctionListenersBound = false;
+  let authUiBound = false;
 
   const state = {
     soldIds: new Set(),
@@ -197,7 +271,7 @@
 
   function clearPersistedAuction() {
     try {
-      localStorage.removeItem(AUCTION_STORAGE_KEY);
+      localStorage.removeItem(getAuctionStorageKey());
     } catch (_) {
       /* private mode */
     }
@@ -211,7 +285,7 @@
   }
 
   function persistAuctionState() {
-    if (!players.length) return;
+    if (!isAuthSessionValid() || !players.length) return;
     try {
       const payload = {
         rosterFp: rosterFingerprint(),
@@ -222,7 +296,7 @@
         ),
         saleStack: state.saleStack.map((e) => ({ ...e })),
       };
-      localStorage.setItem(AUCTION_STORAGE_KEY, JSON.stringify(payload));
+      localStorage.setItem(getAuctionStorageKey(), JSON.stringify(payload));
     } catch (_) {
       /* quota / blocked */
     }
@@ -230,7 +304,7 @@
 
   function tryRestoreAuctionState() {
     try {
-      const raw = localStorage.getItem(AUCTION_STORAGE_KEY);
+      const raw = localStorage.getItem(getAuctionStorageKey());
       if (!raw) return false;
       const data = JSON.parse(raw);
       if (!data || data.rosterFp !== rosterFingerprint()) return false;
@@ -940,24 +1014,80 @@
     persistAuctionState();
   }
 
-  async function startApp() {
-    try {
-      const res = await fetch(new URL("data/players.json", document.baseURI), {
-        cache: "no-store",
-      });
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-      players = (await res.json()).map(normalizeSeedPlayer);
-    } catch (err) {
-      const shell = document.querySelector("main.shell");
-      if (shell) {
-        shell.innerHTML = `<div class="done-card" style="padding:2rem;max-width:40rem;margin:0 auto"><h2>Could not load roster</h2><p>Serve this project over HTTP so the browser can read <code>data/players.json</code> (for example run <code>python3 -m http.server</code> in the Auction folder, then open the URL shown).</p><p class="sub">${escapeHtml(
-          String(err.message || err)
-        )}</p></div>`;
-      }
-      return;
-    }
+  function showAuthLoginCard() {
+    const login = document.getElementById("auth-login-card");
+    const blocked = document.getElementById("auth-blocked-card");
+    if (login) login.hidden = false;
+    if (blocked) blocked.hidden = true;
+    setAuthFormError("");
+  }
 
-    document.querySelector("main.shell")?.addEventListener("click", (e) => {
+  function showAuthBlockedCard(msg) {
+    const login = document.getElementById("auth-login-card");
+    const blocked = document.getElementById("auth-blocked-card");
+    const msgEl = document.getElementById("auth-blocked-msg");
+    if (login) login.hidden = true;
+    if (blocked) blocked.hidden = false;
+    if (msgEl) msgEl.textContent = msg || "Your account is inactive.";
+  }
+
+  function setAuthFormError(text) {
+    const err = document.getElementById("auth-form-error");
+    if (!err) return;
+    if (!text) {
+      err.hidden = true;
+      err.textContent = "";
+    } else {
+      err.textContent = text;
+      err.hidden = false;
+    }
+  }
+
+  function bindAuthUiOnce() {
+    if (authUiBound) return;
+    authUiBound = true;
+
+    document.getElementById("auth-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setAuthFormError("");
+      const u = (document.getElementById("auth-username")?.value || "").trim().toLowerCase();
+      const pw = document.getElementById("auth-password")?.value || "";
+      const row = USERS[u];
+      if (!row || row.password !== pw) {
+        setAuthFormError("Invalid username or password.");
+        return;
+      }
+      if (!row.active) {
+        showAuthBlockedCard("This account is inactive. You cannot access the auction.");
+        return;
+      }
+      saveAuthSession(u);
+      document.body.classList.remove("not-authed");
+      document.body.classList.add("authed");
+      await enterAuctionApp();
+    });
+
+    document.getElementById("btn-logout")?.addEventListener("click", () => {
+      const ok = confirm(
+        "Log out? Your saved auction progress for this account stays on this device until you clear site data."
+      );
+      if (!ok) return;
+      clearAuthSession();
+      document.body.classList.remove("authed");
+      document.body.classList.add("not-authed");
+      showAuthLoginCard();
+      const pw = document.getElementById("auth-password");
+      if (pw) pw.value = "";
+    });
+
+    document.getElementById("auth-back-to-login")?.addEventListener("click", () => {
+      clearAuthSession();
+      showAuthLoginCard();
+    });
+  }
+
+  function bindAuctionListeners() {
+    document.getElementById("auction-app")?.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-assign-skipped][data-assign-team]");
       if (!btn || btn.disabled) return;
       e.preventDefault();
@@ -1016,6 +1146,24 @@
       };
       reader.readAsText(file, "UTF-8");
     });
+  }
+
+  async function loadRosterAndRestoreState() {
+    try {
+      const res = await fetch(new URL("data/players.json", document.baseURI), {
+        cache: "no-store",
+      });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      players = (await res.json()).map(normalizeSeedPlayer);
+    } catch (err) {
+      const shell = document.getElementById("auction-app");
+      if (shell) {
+        shell.innerHTML = `<div class="done-card" style="padding:2rem;max-width:40rem;margin:0 auto"><h2>Could not load roster</h2><p>Serve this project over HTTP so the browser can read <code>data/players.json</code> (for example run <code>python3 -m http.server</code> in the Auction folder, then open the URL shown).</p><p class="sub">${escapeHtml(
+          String(err.message || err)
+        )}</p></div>`;
+      }
+      return;
+    }
 
     const restored = tryRestoreAuctionState();
     if (!restored) {
@@ -1028,5 +1176,45 @@
     }
   }
 
-  await startApp();
+  async function enterAuctionApp() {
+    if (!auctionListenersBound) {
+      bindAuctionListeners();
+      auctionListenersBound = true;
+    }
+    await loadRosterAndRestoreState();
+  }
+
+  async function bootAuth() {
+    bindAuthUiOnce();
+
+    const s = getAuthSession();
+    if (s && !isAuthSessionFresh(s)) {
+      clearAuthSession();
+      showAuthLoginCard();
+      return;
+    }
+
+    if (s && isAuthSessionFresh(s)) {
+      const row = USERS[s.username];
+      if (!row) {
+        clearAuthSession();
+        showAuthLoginCard();
+        return;
+      }
+      if (!row.active) {
+        document.body.classList.remove("authed");
+        document.body.classList.add("not-authed");
+        showAuthBlockedCard("Your account is inactive. You cannot access the auction.");
+        return;
+      }
+      document.body.classList.remove("not-authed");
+      document.body.classList.add("authed");
+      await enterAuctionApp();
+      return;
+    }
+
+    showAuthLoginCard();
+  }
+
+  await bootAuth();
 })();

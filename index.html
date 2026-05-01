@@ -858,11 +858,161 @@
         opacity: 0.38;
         cursor: not-allowed;
       }
+
+      body.not-authed main.shell,
+      body.not-authed #player-list-modal,
+      body.not-authed #toast {
+        display: none !important;
+      }
+
+      body.authed #auth-gate {
+        display: none !important;
+      }
+
+      .auth-gate {
+        position: relative;
+        z-index: 200;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+
+      .auth-card {
+        width: min(400px, 100%);
+        padding: 1.75rem 1.5rem;
+        border-radius: 20px;
+        background: linear-gradient(165deg, rgba(20, 50, 45, 0.55), var(--bg-card-solid));
+        border: 1px solid var(--stroke);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      }
+
+      .auth-blocked {
+        border-color: rgba(248, 113, 113, 0.4);
+      }
+
+      .auth-brand {
+        margin: 0 0 0.5rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .auth-title {
+        margin: 0 0 0.5rem;
+        font-family: "Outfit", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+
+      .auth-hint {
+        margin: 0 0 1.25rem;
+        font-size: 0.88rem;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .auth-label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      .auth-input {
+        font-family: inherit;
+        font-size: 1rem;
+        padding: 0.6rem 0.75rem;
+        border-radius: 10px;
+        border: 1px solid var(--stroke);
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--text);
+      }
+
+      .auth-input:focus {
+        outline: none;
+        border-color: rgba(74, 222, 128, 0.5);
+      }
+
+      .auth-form-error {
+        margin: 0;
+        font-size: 0.85rem;
+        color: #fecaca;
+      }
+
+      .auth-submit {
+        width: 100%;
+        margin-top: 0.25rem;
+        padding: 0.65rem;
+        justify-content: center;
+      }
+
+      .auth-blocked-msg {
+        color: #fecaca;
+        line-height: 1.5;
+      }
+
+      .btn-logout {
+        border-color: rgba(148, 163, 184, 0.35);
+        color: var(--muted);
+      }
     </style>
   </head>
-  <body>
+  <body class="not-authed">
     <div class="noise" aria-hidden="true"></div>
-    <main class="shell">
+
+    <div id="auth-gate" class="auth-gate" aria-live="polite">
+      <div id="auth-login-card" class="auth-card">
+        <p class="auth-brand">Sun Divine-5 · Season 3</p>
+        <h1 class="auth-title">Sign in</h1>
+        <p class="auth-hint">Auction access is restricted to authorized users.</p>
+        <form id="auth-form" class="auth-form" novalidate>
+          <label class="auth-label">
+            <span>Username</span>
+            <input
+              id="auth-username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              required
+              class="auth-input"
+            />
+          </label>
+          <label class="auth-label">
+            <span>Password</span>
+            <input
+              id="auth-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              class="auth-input"
+            />
+          </label>
+          <p id="auth-form-error" class="auth-form-error" role="alert" hidden></p>
+          <button type="submit" class="btn primary auth-submit">Log in</button>
+        </form>
+      </div>
+      <div id="auth-blocked-card" class="auth-card auth-blocked" hidden>
+        <h1 class="auth-title">Access denied</h1>
+        <p id="auth-blocked-msg" class="auth-blocked-msg"></p>
+        <p class="auth-hint">Your account is inactive. Contact the organizer if this is a mistake.</p>
+        <button type="button" class="btn ghost auth-back" id="auth-back-to-login">Back to sign in</button>
+      </div>
+    </div>
+
+    <main id="auction-app" class="shell">
       <header class="hero">
         <div class="brand">
           <div class="league">Sun Divine-5</div>
@@ -882,6 +1032,7 @@
           <button type="button" class="btn ghost" id="btn-all-players">All players &amp; groups</button>
           <button type="button" class="btn ghost" id="btn-restart-auction">Restart auction</button>
           <button type="button" class="btn ghost" id="btn-undo">Undo last sale</button>
+          <button type="button" class="btn ghost btn-logout" id="btn-logout">Log out</button>
         </div>
       </header>
 
