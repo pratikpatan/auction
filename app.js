@@ -10,6 +10,7 @@
   const TEAM_BUDGET = 100000;
   const SQUAD_MAX = 7;
   const SEASON_LABELS = ["Season 1", "Season 2"];
+  const AUCTION_STORAGE_KEY = "sun-divine-auction-progress-v1";
 
   const TEAMS = [
     { id: "t1", name: "Solar Strikers", accent: "#f59e0b" },
@@ -190,6 +191,114 @@
     });
   }
 
+  function rosterFingerprint() {
+    return players.map((p) => p.id).join("|");
+  }
+
+  function clearPersistedAuction() {
+    try {
+      localStorage.removeItem(AUCTION_STORAGE_KEY);
+    } catch (_) {
+      /* private mode */
+    }
+  }
+
+  function recomputePursesFromSquads() {
+    TEAMS.forEach((t) => {
+      const spent = state.teamSquads[t.id].reduce((sum, pl) => sum + (Number(pl.price) || 0), 0);
+      state.teamPurse[t.id] = TEAM_BUDGET - spent;
+    });
+  }
+
+  function persistAuctionState() {
+    if (!players.length) return;
+    try {
+      const payload = {
+        rosterFp: rosterFingerprint(),
+        soldIds: [...state.soldIds],
+        removedIds: [...state.removedIds],
+        teamSquads: Object.fromEntries(
+          TEAMS.map((t) => [t.id, state.teamSquads[t.id].map((p) => ({ ...p }))])
+        ),
+        saleStack: state.saleStack.map((e) => ({ ...e })),
+      };
+      localStorage.setItem(AUCTION_STORAGE_KEY, JSON.stringify(payload));
+    } catch (_) {
+      /* quota / blocked */
+    }
+  }
+
+  function tryRestoreAuctionState() {
+    try {
+      const raw = localStorage.getItem(AUCTION_STORAGE_KEY);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (!data || data.rosterFp !== rosterFingerprint()) return false;
+
+      const idSet = new Set(players.map((p) => p.id));
+      const rem = new Set((data.removedIds || []).filter((id) => idSet.has(id)));
+
+      TEAMS.forEach((t) => {
+        const saved = data.teamSquads && data.teamSquads[t.id];
+        const list = Array.isArray(saved)
+          ? saved.filter((x) => x && x.id && idSet.has(x.id) && !rem.has(x.id))
+          : [];
+        state.teamSquads[t.id] = list.map((x) => ({
+          id: x.id,
+          name: String(x.name || ""),
+          group: String(x.group || "C"),
+          price: Number(x.price) || 0,
+        }));
+      });
+
+      state.removedIds = rem;
+      state.soldIds = new Set((data.soldIds || []).filter((id) => idSet.has(id)));
+      TEAMS.forEach((t) => {
+        state.teamSquads[t.id].forEach((pl) => state.soldIds.add(pl.id));
+      });
+
+      recomputePursesFromSquads();
+
+      state.saleStack = [];
+      const rawStack = data.saleStack || [];
+      for (const e of rawStack) {
+        if (!e || !idSet.has(e.playerId)) continue;
+        const sq = state.teamSquads[e.teamId];
+        if (sq && sq.some((p) => p.id === e.playerId && Number(p.price) === Number(e.price))) {
+          state.saleStack.push({
+            teamId: e.teamId,
+            playerId: e.playerId,
+            price: Number(e.price),
+          });
+        }
+      }
+      const totalAssigned = TEAMS.reduce((n, te) => n + state.teamSquads[te.id].length, 0);
+      if (state.saleStack.length !== totalAssigned) state.saleStack = [];
+
+      state.leadingTeamId = null;
+      state.currentBid = 0;
+      state.roundPlayerId = null;
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function restartAuctionConfirmed() {
+    if (
+      !confirm(
+        "Restart the entire auction? All picks, skips, team purses, removals, and undo history will be cleared. This cannot be undone."
+      )
+    ) {
+      return;
+    }
+    clearPersistedAuction();
+    resetAuctionState();
+    resetRoundForPlayer(currentPlayer());
+    render();
+    showToast("Auction restarted from the first player.");
+  }
+
   function auctionHasProgress() {
     if (state.saleStack.length > 0) return true;
     if (state.removedIds.size > 0) return true;
@@ -289,6 +398,7 @@
   }
 
   function applyImportedPlayers(nextList) {
+    clearPersistedAuction();
     players = nextList.map((p, i) => ({ ...p, order: i }));
     resetAuctionState();
     resetRoundForPlayer(currentPlayer());
@@ -827,6 +937,7 @@
     renderSummary();
     const modal = document.getElementById("player-list-modal");
     if (modal && modal.classList.contains("is-open")) renderPlayerListModalBody();
+    persistAuctionState();
   }
 
   async function startApp() {
@@ -880,6 +991,8 @@
 
     document.getElementById("btn-undo")?.addEventListener("click", undoLastSale);
 
+    document.getElementById("btn-restart-auction")?.addEventListener("click", restartAuctionConfirmed);
+
     document.getElementById("btn-download-sample-csv")?.addEventListener("click", () => {
       downloadSampleCsv().then(() => showToast("Sample CSV downloaded."));
     });
@@ -904,9 +1017,15 @@
       reader.readAsText(file, "UTF-8");
     });
 
-    resetAuctionState();
+    const restored = tryRestoreAuctionState();
+    if (!restored) {
+      resetAuctionState();
+    }
     resetRoundForPlayer(currentPlayer());
     render();
+    if (restored) {
+      showToast("Restored saved progress (picks, skips, squads).");
+    }
   }
 
   await startApp();
