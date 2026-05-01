@@ -250,7 +250,24 @@
     teamSquads: Object.fromEntries(TEAMS.map((t) => [t.id, []])),
     saleStack: [],
     roundPlayerId: null,
+    /** Random lot order (permutation of player ids); persisted with auction state. */
+    auctionOrder: [],
   };
+
+  function shuffleAuctionOrder() {
+    if (!players.length) {
+      state.auctionOrder = [];
+      return;
+    }
+    const ids = players.map((p) => p.id);
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = ids[i];
+      ids[i] = ids[j];
+      ids[j] = t;
+    }
+    state.auctionOrder = ids;
+  }
 
   function resetAuctionState() {
     state.soldIds.clear();
@@ -263,6 +280,7 @@
       state.teamSquads[t.id] = [];
       state.teamPurse[t.id] = TEAM_BUDGET;
     });
+    shuffleAuctionOrder();
   }
 
   function rosterFingerprint() {
@@ -289,6 +307,7 @@
     try {
       const payload = {
         rosterFp: rosterFingerprint(),
+        auctionOrder: [...state.auctionOrder],
         soldIds: [...state.soldIds],
         removedIds: [...state.removedIds],
         teamSquads: Object.fromEntries(
@@ -349,6 +368,23 @@
       const totalAssigned = TEAMS.reduce((n, te) => n + state.teamSquads[te.id].length, 0);
       if (state.saleStack.length !== totalAssigned) state.saleStack = [];
 
+      const rawOrder = data.auctionOrder;
+      let orderOk = false;
+      if (Array.isArray(rawOrder) && rawOrder.length === players.length) {
+        const oset = new Set(rawOrder);
+        if (oset.size === players.length && players.every((p) => oset.has(p.id))) {
+          state.auctionOrder = [...rawOrder];
+          orderOk = true;
+        }
+      }
+      if (!orderOk) {
+        if (Array.isArray(rawOrder) && rawOrder.length > 0) {
+          shuffleAuctionOrder();
+        } else {
+          state.auctionOrder = players.map((pl) => pl.id);
+        }
+      }
+
       state.leadingTeamId = null;
       state.currentBid = 0;
       state.roundPlayerId = null;
@@ -370,7 +406,7 @@
     resetAuctionState();
     resetRoundForPlayer(currentPlayer());
     render();
-    showToast("Auction restarted from the first player.");
+    showToast("Auction restarted with a new random player order.");
   }
 
   function auctionHasProgress() {
@@ -540,11 +576,19 @@
   }
 
   function currentPlayer() {
-    const unsold = players.filter(
-      (p) => !state.removedIds.has(p.id) && !state.soldIds.has(p.id)
-    );
-    if (!unsold.length) return null;
-    return unsold[0];
+    const idSet = new Set(players.map((p) => p.id));
+    const stillInPool = (id) =>
+      idSet.has(id) && !state.removedIds.has(id) && !state.soldIds.has(id);
+    const order =
+      state.auctionOrder && state.auctionOrder.length === players.length
+        ? state.auctionOrder
+        : players.map((p) => p.id);
+    for (const id of order) {
+      if (!stillInPool(id)) continue;
+      const p = players.find((x) => x.id === id);
+      if (p) return p;
+    }
+    return null;
   }
 
   function rulesFor(g) {
@@ -1071,7 +1115,7 @@
     body.innerHTML = `<table class="player-list-table">
       <thead><tr><th>#</th><th>Player</th><th>Group</th><th>S1 MVP</th><th>S2 MVP</th><th>Base · step</th><th>Status</th><th>Pool</th></tr></thead>
       <tbody>${rows}</tbody></table>
-      <p class="plist-foot">${active} active in pool (${state.removedIds.size} removed). Row order in your CSV is the auction order. Default roster comes from <code>data/players.json</code> (rebuild with <code>build_players.py</code>).</p>`;
+      <p class="plist-foot">${active} active in pool (${state.removedIds.size} removed). On block, the next player is chosen at random from the pool (order is saved with your progress). Default roster: <code>data/players.json</code> (rebuild with <code>build_players.py</code>).</p>`;
   }
 
   function setPlayerListModal(open) {
