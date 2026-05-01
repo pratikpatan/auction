@@ -1,0 +1,52 @@
+player_id,name,team_id,team_name,total_match,innings,total_wickets,balls,highest_wicket,economy,SR,maidens,avg,runs,bowling_style,overs,dot_balls
+40570926,Manav Chauhan,11735197,Death Over Dominators,3,3,5,40,2,2.55,8.00,0,3.4,17,Right-arm fast,6.4,27
+17018986,Shivam Sharma,11735208,Dominators,2,2,4,23,4,3.65,5.75,0,3.5,14,Right-arm fast,3.5,13
+26101732,Sanjesh Raghuwanshi,11735197,Death Over Dominators,3,3,3,36,2,2.83,12.00,0,5.67,17,Right-arm Off Break,6.0,25
+45238049,Nimesh Kadia,11735214,Scorpion Kings,2,2,3,18,2,4.33,6.00,0,4.33,13,Right-arm fast,3.0,9
+9834002,Varshil Patel,11735191,Rising Legends,3,3,3,30,3,5.00,10.00,0,8.33,25,Right-arm medium,5.0,19
+36617317,Ajay,11735191,Rising Legends,3,3,3,30,2,5.60,10.00,0,9.33,28,Right-arm fast,5.0,16
+2357305,Frank,11735202,Kingfisher 11,2,1,2,6,2,1.00,3.00,0,0.5,1,Right-arm fast,1.0,5
+34563478,Meet Mehulbhai Kadia,11735202,Kingfisher 11,2,1,2,12,2,3.00,6.00,0,3,6,Right-arm medium,2.0,8
+9834033,Montu,11735191,Rising Legends,3,2,2,18,2,3.67,9.00,0,5.5,11,Right-arm fast,3.0,11
+15992950,Sharma Vansh Vijaybhai,11735214,Scorpion Kings,2,2,2,18,2,4.33,9.00,0,6.5,13,Right-arm Off Break,3.0,12
+40665430,Jigar Raval,11735191,Rising Legends,3,2,2,12,1,4.50,6.00,0,4.5,9,-,2.0,7
+403657,Nepal Singh,11735202,Kingfisher 11,2,2,2,24,2,4.75,12.00,0,9.5,19,Right-arm medium,4.0,13
+483923,Pratik Patel,11735191,Rising Legends,3,3,2,30,1,5.20,15.00,0,13,26,Right-arm medium,5.0,18
+40571000,Chintan Shah,11735197,Death Over Dominators,3,2,2,24,1,7.25,12.00,0,14.5,29,Right-arm fast,4.0,12
+40570812,Ravi Lohar,11735214,Scorpion Kings,2,1,2,6,2,8.00,3.00,0,4,8,Right-arm medium,1.0,3
+40570717,Vatsal Kadia,11735214,Scorpion Kings,2,2,2,12,2,8.00,6.00,0,8,16,Right-arm fast,2.0,4
+40570815,Vishnu Bishnoi,11735197,Death Over Dominators,3,1,2,5,2,9.60,2.50,0,4,8,Right-arm Off Break,0.5,2
+40570998,Harshit Audichya,11735214,Scorpion Kings,2,1,1,4,1,1.50,4.00,0,1,1,Right-arm medium,0.4,3
+16978695,Adityasinh Chauhan,11735191,Rising Legends,3,2,1,20,1,3.00,20.00,1,10,10,Right-arm medium,3.2,14
+40581316,Naysa,11735214,Scorpion Kings,2,2,1,12,1,4.00,12.00,0,8,8,-,2.0,8
+16123157,Dev Joshi,11735191,Rising Legends,3,1,1,12,1,4.00,12.00,0,8,8,Right-arm fast,2.0,7
+40570813,Rushi,11735197,Death Over Dominators,3,3,1,24,1,4.50,24.00,0,18,18,Right-arm fast,4.0,12
+45237970,Ravin,11735208,Dominators,2,2,1,24,1,5.00,24.00,0,20,20,-,4.0,14
+21717274,Darshan Barot,11735214,Scorpion Kings,2,2,1,12,1,6.50,12.00,0,13,13,Right-arm fast,2.0,6
+37978440,Pavan Patil,11735197,Death Over Dominators,3,3,1,24,1,6.50,24.00,0,26,26,Right-arm fast,4.0,12
+33271072,Chauhan Meet,11735202,Kingfisher 11,2,1,1,12,1,8.50,12.00,0,17,17,Right-arm medium,2.0,6
+5057407,Praharsh Shah,11735208,Dominators,2,2,1,12,1,11.00,12.00,0,22,22,Right-arm fast,2.0,6
+3691575,Dr Pinakin Patel,11735191,Rising Legends,3,1,1,6,1,13.00,6.00,0,13,13,Right-arm fast,1.0,2
+19817734,Vivek Nayi,11735202,Kingfisher 11,2,1,0,6,0,3.00,0.00,0,0,3,Right-arm medium,1.0,3
+40570928,Jaydeep Parekh,11735202,Kingfisher 11,2,2,0,24,0,4.50,0.00,0,0,18,Right-arm fast,4.0,12
+172420,Darji Dhruv,11735214,Scorpion Kings,2,2,0,17,0,4.59,0.00,1,0,13,Right-arm fast,2.5,11
+27222807,Archit Singh,11735202,Kingfisher 11,2,1,0,6,0,5.00,0.00,0,0,5,Right-arm fast,1.0,3
+94120,Hiren Mewada,11735197,Death Over Dominators,3,1,0,6,0,9.00,0.00,0,0,9,Right-arm medium,1.0,2
+31418240,Dishant Thakor,11735208,Dominators,2,2,0,12,0,9.00,0.00,0,0,18,Right-arm fast,2.0,4
+25800778,Naresh Joshi,11735202,Kingfisher 11,2,1,0,12,0,10.00,0.00,0,0,20,-,2.0,3
+34699914,Rahul,11735208,Dominators,2,1,0,6,0,13.00,0.00,0,0,13,Left-arm medium,1.0,3
+40571082,Sujeet,11735208,Dominators,2,1,0,6,0,15.00,0.00,0,0,15,Right-arm fast,1.0,2
+45237588,Trupit,11735191,Rising Legends,3,1,0,2,0,15.00,0.00,0,0,5,Right-arm fast,0.2,0
+40570930,Jigar,11735214,Scorpion Kings,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570929,Priyanshi,11735208,Dominators,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570894,Mehul Kadia,11735214,Scorpion Kings,2,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+40571243,Ritesh,11735202,Kingfisher 11,2,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+40571251,Vishal Sharma,11735197,Death Over Dominators,3,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+40571263,Rajveer,11735191,Rising Legends,1,0,,,,0.00,0.00,0,0,0,None,0.0,0
+29264102,Sarthak,11735191,Rising Legends,3,0,,,,0.00,0.00,0,0,0,None,0.0,0
+28281576,Ashutosh Singh,11735208,Dominators,2,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+45237777,Hitesh Patel,11735202,Kingfisher 11,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+45237969,Gopal Aragade,11735208,Dominators,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+9834021,Gaurav Suthar,11735197,Death Over Dominators,3,0,,,,0.00,0.00,0,0,0,Right-arm fast,0.0,0
+4893613,Bhuvnesh Patel,11735197,Death Over Dominators,3,0,,,,0.00,0.00,0,0,0,Right-arm medium,0.0,0
+45474038,Anand,11735214,Scorpion Kings,1,0,,,,0.00,0.00,0,0,0,-,0.0,0

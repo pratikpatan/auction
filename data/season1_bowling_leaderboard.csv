@@ -1,0 +1,64 @@
+player_id,name,team_id,team_name,total_match,innings,total_wickets,balls,highest_wicket,economy,SR,maidens,avg,runs,bowling_style,overs,dot_balls
+33271072,Chauhan Meet,10131281,Kings Layers,4,3,6,30,3,4.00,5.00,0,3.33,20,Right-arm medium,5.0,21
+26101732,Sanjesh Raghuwanshi,10131297,Knight Batters,3,3,5,23,4,2.87,4.60,0,2.2,11,Right-arm Off Break,3.5,15
+31418240,Dishant Thakor,10131304,Run Rullers,4,4,5,42,3,5.00,8.40,1,7,35,Right-arm fast,7.0,27
+40570928,Jaydeep Parekh,10131304,Run Rullers,4,4,5,42,2,5.57,8.40,1,7.8,39,Right-arm fast,7.0,21
+40571269,Mayur,10131297,Knight Batters,3,1,4,12,4,0.00,3.00,2,0,0,Right-arm fast,2.0,12
+40570814,Anuj Patel,10131281,Kings Layers,4,3,4,30,2,2.40,7.50,0,3,12,Right-arm medium,5.0,19
+3564473,Hit Solanki,10131304,Run Rullers,4,4,4,54,2,3.56,13.50,1,8,32,Right-arm fast,9.0,35
+15992950,Sharma Vansh Vijaybhai,10131304,Run Rullers,4,4,4,54,2,4.33,13.50,1,9.75,39,Right-arm Off Break,9.0,33
+483923,Pratik Patel,10131304,Run Rullers,4,3,4,24,2,4.50,6.00,0,4.5,18,Right-arm medium,4.0,17
+16123157,Dev Joshi,10131283,Wicket Warriors,3,3,4,24,3,6.00,6.00,0,6,24,Right-arm fast,4.0,12
+40570926,Manav Chauhan,10131304,Run Rullers,4,2,3,18,2,2.00,6.00,0,2,6,Right-arm fast,3.0,15
+21771898,Jaideep Lalchandani,10131297,Knight Batters,3,3,3,30,2,4.00,10.00,0,6.67,20,Right-arm Off Break,5.0,18
+5057407,Praharsh Shah,10131281,Kings Layers,4,3,3,36,3,4.33,12.00,0,8.67,26,Right-arm fast,6.0,22
+40570998,Harshit Audichya,10131283,Wicket Warriors,3,2,3,24,3,4.50,8.00,0,6,18,Right-arm medium,4.0,12
+40571000,Chintan Shah,10131283,Wicket Warriors,3,2,3,24,3,4.50,8.00,0,6,18,Right-arm fast,4.0,10
+21717274,Darshan Barot,10131281,Kings Layers,4,3,3,25,3,5.28,8.33,0,7.33,22,Right-arm fast,4.1,15
+9834021,Gaurav Suthar,10131283,Wicket Warriors,3,3,3,27,2,6.67,9.00,0,10,30,Right-arm fast,4.3,14
+18908102,Yash J,10131281,Kings Layers,4,1,2,12,2,1.50,6.00,1,1.5,3,Right-arm Leg Break,2.0,11
+17018986,Shivam Sharma,10131287,Captains XI,2,2,2,18,2,3.00,9.00,0,4.5,9,Right-arm fast,3.0,10
+9834002,Varshil Patel,10131281,Kings Layers,4,3,2,42,2,3.43,21.00,0,12,24,Right-arm medium,7.0,28
+1320539,Dhaval P Sheth,10131297,Knight Batters,3,1,2,6,2,4.00,3.00,0,2,4,Right-arm Off Break,1.0,4
+40571082,Sujeet,10131308,Royal Strikers,2,2,2,24,2,5.25,12.00,0,10.5,21,Right-arm fast,4.0,13
+4893613,Bhuvnesh Patel,10131287,Captains XI,2,1,2,6,2,6.00,3.00,0,3,6,Right-arm medium,1.0,3
+40571083,Akesh,10131308,Royal Strikers,2,1,2,12,2,7.00,6.00,0,7,14,Right-arm fast,2.0,6
+40570813,Rushi,10131281,Kings Layers,2,2,2,18,1,7.33,9.00,0,11,22,Right-arm fast,3.0,10
+40570981,Laxman Kumawat,10131287,Captains XI,2,2,2,24,2,8.00,12.00,0,16,32,Right-arm fast,4.0,12
+40570927,Chinmay Trivedi,10131304,Run Rullers,4,2,1,9,1,0.67,9.00,0,1,1,Right-arm fast,1.3,8
+40650958,Vishnu,10131281,Kings Layers,4,1,1,8,1,2.25,8.00,0,3,3,Right-arm fast,1.2,6
+40571251,Vishal Sharma,10131297,Knight Batters,3,2,1,18,1,2.67,18.00,0,8,8,Right-arm fast,3.0,10
+40570811,Harshil,10131281,Kings Layers,4,1,1,6,1,6.00,6.00,0,6,6,Right-arm fast,1.0,5
+2357305,Frank,10131308,Royal Strikers,2,2,1,18,1,6.33,18.00,0,19,19,Right-arm fast,3.0,11
+19817734,Vivek Nayi,10131287,Captains XI,2,2,1,11,1,6.55,11.00,0,12,12,Right-arm medium,1.5,7
+94120,Hiren (dada),10131297,Knight Batters,3,3,1,18,1,7.67,18.00,0,23,23,Right-arm medium,3.0,4
+40571085,Rupesh Patel,10131308,Royal Strikers,2,2,1,19,1,9.16,19.00,0,29,29,Right-arm fast,3.1,10
+9834033,Montu,10131287,Captains XI,2,2,1,18,1,9.33,18.00,0,28,28,Right-arm fast,3.0,6
+24200907,Smit 72,10131281,Kings Layers,4,1,0,6,0,1.00,0.00,0,0,1,Right-arm fast,1.0,6
+40570812,Ravi Lohar,10131281,Kings Layers,4,2,0,12,0,2.00,0.00,0,0,4,Right-arm medium,2.0,11
+40571243,Riteshbhai,10131297,Knight Batters,3,1,0,6,0,3.00,0.00,0,0,3,Right-arm fast,1.0,4
+583119,Balveersinh,10131308,Royal Strikers,2,1,0,6,0,4.00,0.00,0,0,4,Right-arm medium,1.0,3
+3691575,Dr Pinakin Patel,10131287,Captains XI,2,1,0,6,0,4.00,0.00,0,0,4,Right-arm fast,1.0,3
+40570999,Narayan Singh,10131283,Wicket Warriors,3,3,0,24,0,4.50,0.00,0,0,18,Right-arm fast,4.0,14
+34563478,Meet Mehulbhai Kadia,10131287,Captains XI,2,1,0,6,0,5.00,0.00,0,0,5,Right-arm medium,1.0,3
+16978695,Adityasinh Chauhan,10131308,Royal Strikers,2,1,0,12,0,6.00,0.00,0,0,12,Right-arm medium,2.0,3
+26226557,Maunil Darji,10131283,Wicket Warriors,3,2,0,9,0,6.67,0.00,0,0,10,Right-arm fast,1.3,5
+40570717,Vatsal Kadia,10131297,Knight Batters,3,3,0,30,0,7.40,0.00,0,0,37,Right-arm fast,5.0,13
+40570894,Mehul Kadia,10131283,Wicket Warriors,3,1,0,6,0,8.00,0.00,0,0,8,Right-arm fast,1.0,1
+40652262,Kirtibhai,10131304,Run Rullers,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40649173,Haresh Thakor,10131287,Captains XI,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40571084,Kamlesh,10131308,Royal Strikers,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40571233,Arun Kumar Gupta,10131297,Knight Batters,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40571263,Rajveer,10131297,Knight Batters,3,0,,,,0.00,0.00,0,0,0,None,0.0,0
+40571081,Hari,10131308,Royal Strikers,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40571018,Darshil Raval,10131283,Wicket Warriors,3,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570992,Dhyey Goswami,10131308,Royal Strikers,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570980,Kiran Parmar,10131287,Captains XI,1,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570930,Jigar,10131304,Run Rullers,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570929,Priyanshi,10131304,Run Rullers,2,0,,,,0.00,0.00,0,0,0,-,0.0,0
+40570815,Om Bishnoi,10131281,Kings Layers,1,0,,,,0.00,0.00,0,0,0,Right-arm Off Break,0.0,0
+29264102,Sarthak,10131308,Royal Strikers,2,0,,,,0.00,0.00,0,0,0,None,0.0,0
+26922673,Pratik M Shah,10131283,Wicket Warriors,3,0,,,,0.00,0.00,0,0,0,None,0.0,0
+3692065,Dhiraj Bhai,10131287,Captains XI,2,0,,,,0.00,0.00,0,0,0,Right-arm medium,0.0,0
+1406963,Pragnesh Jayantilal Sheth,10131304,Run Rullers,4,0,,,,0.00,0.00,0,0,0,-,0.0,0
+476546,Daniel Kunal G,10131283,Wicket Warriors,3,0,,,,0.00,0.00,0,0,0,Right-arm Off Break,0.0,0

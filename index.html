@@ -240,13 +240,27 @@
 
       @media (min-width: 640px) {
         .player-grid {
-          grid-template-columns: 200px 1fr;
+          grid-template-columns: minmax(0, 220px) 1fr;
         }
+      }
+
+      .photo-column {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        min-width: 0;
       }
 
       .photo-wrap {
         position: relative;
         justify-self: center;
+      }
+
+      .stats-wrap--below-photo {
+        width: 100%;
+        max-width: 220px;
+        max-height: min(42vh, 20rem);
       }
 
       .player-photo {
@@ -292,6 +306,23 @@
         overflow: auto;
         border-radius: 12px;
         border: 1px solid rgba(255, 255, 255, 0.08);
+        max-height: min(70vh, 32rem);
+      }
+
+      .stats-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0.5rem 0.5rem 0.75rem;
+      }
+
+      .stats-section-title {
+        margin: 0 0 0.35rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent);
       }
 
       .stats-table {
@@ -686,6 +717,13 @@
       .player-list-table tr.st-removed td:last-child {
         color: var(--muted);
         font-style: italic;
+      }
+
+      .plist-mvp {
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+        font-size: 0.78rem;
+        color: #fef9c3;
       }
 
       .plist-remove,

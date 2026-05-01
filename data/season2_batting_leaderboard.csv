@@ -1,0 +1,52 @@
+player_id,name,team_id,team_name,total_match,innings,total_runs,highest_run,average,not_out,strike_rate,ball_faced,batting_hand,4s,6s,50s,100s
+172420,Darji Dhruv,11735214,Scorpion Kings,2,2,51,32,25.50,0,170.00,30,RHB,1,5,0,0
+31418240,Dishant Thakor,11735208,Dominators,2,2,46,34,23.00,0,135.29,34,LHB,1,5,0,0
+40570926,Manav Chauhan,11735197,Death Over Dominators,3,3,46,23,23.00,1,100.00,46,RHB,1,4,0,0
+94120,Hiren Mewada,11735197,Death Over Dominators,3,2,36,26,36.00,1,150.00,24,RHB,3,2,0,0
+45237970,Ravin,11735208,Dominators,2,2,28,15,28.00,1,68.29,41,-,0,2,0,0
+36617317,Ajay,11735191,Rising Legends,3,3,24,12,8.00,0,85.71,28,RHB,2,1,0,0
+9834002,Varshil Patel,11735191,Rising Legends,3,3,21,18,7.00,0,105.00,20,RHB,0,2,0,0
+45237588,Trupit,11735191,Rising Legends,3,3,19,12,19.00,2,100.00,19,RHB,0,2,0,0
+483923,Pratik Patel,11735191,Rising Legends,3,3,19,15,9.50,1,67.86,28,RHB,1,0,0,0
+40570717,Vatsal Kadia,11735214,Scorpion Kings,2,2,18,16,9.00,0,56.25,32,RHB,0,0,0,0
+19817734,Vivek Nayi,11735202,Kingfisher 11,2,2,14,11,7.00,0,77.78,18,RHB,0,1,0,0
+26101732,Sanjesh Raghuwanshi,11735197,Death Over Dominators,3,2,13,7,13.00,1,59.09,22,RHB,0,1,0,0
+16123157,Dev Joshi,11735191,Rising Legends,3,2,10,8,5.00,0,43.48,23,RHB,0,0,0,0
+2357305,Frank,11735202,Kingfisher 11,2,1,9,9,9.00,0,69.23,13,RHB,0,0,0,0
+403657,Nepal Singh,11735202,Kingfisher 11,2,2,9,7,4.50,0,69.23,13,RHB,0,0,0,0
+15992950,Sharma Vansh Vijaybhai,11735214,Scorpion Kings,2,2,8,6,4.00,0,100.00,8,RHB,0,0,0,0
+21717274,Darshan Barot,11735214,Scorpion Kings,2,2,8,8,4.00,0,40.00,20,RHB,0,0,0,0
+40570928,Jaydeep Parekh,11735202,Kingfisher 11,2,2,7,4,3.50,0,77.78,9,RHB,0,0,0,0
+3691575,Dr Pinakin Patel,11735191,Rising Legends,3,2,6,5,-,2,31.58,19,RHB,0,0,0,0
+40665430,Jigar Raval,11735191,Rising Legends,3,3,6,4,2.00,0,40.00,15,RHB,0,0,0,0
+28281576,Ashutosh Singh,11735208,Dominators,2,2,5,3,5.00,1,71.43,7,RHB,0,0,0,0
+27222807,Archit Singh,11735202,Kingfisher 11,2,2,5,4,5.00,1,50.00,10,RHB,0,0,0,0
+40571082,Sujeet,11735208,Dominators,2,2,4,4,4.00,1,44.44,9,RHB,0,0,0,0
+45237777,Hitesh Patel,11735202,Kingfisher 11,2,2,4,4,2.00,0,40.00,10,-,0,0,0,0
+17018986,Shivam Sharma,11735208,Dominators,2,2,4,2,2.00,0,36.36,11,RHB,0,0,0,0
+40571251,Vishal Sharma,11735197,Death Over Dominators,3,1,3,3,3.00,0,50.00,6,RHB,0,0,0,0
+37978440,Pavan Patil,11735197,Death Over Dominators,3,2,3,3,3.00,1,30.00,10,RHB,0,0,0,0
+45474038,Anand,11735214,Scorpion Kings,1,1,2,2,-,1,50.00,4,-,0,0,0,0
+25800778,Naresh Joshi,11735202,Kingfisher 11,2,1,2,2,2.00,0,100.00,2,LHB,0,0,0,0
+45237969,Gopal Aragade,11735208,Dominators,2,1,2,2,2.00,0,40.00,5,-,0,0,0,0
+40581316,Naysa,11735214,Scorpion Kings,2,1,2,2,2.00,0,25.00,8,RHB,0,0,0,0
+34699914,Rahul,11735208,Dominators,2,1,2,2,-,1,66.67,3,LHB,0,0,0,0
+40570998,Harshit Audichya,11735214,Scorpion Kings,2,2,2,2,2.00,1,33.33,6,RHB,0,0,0,0
+16978695,Adityasinh Chauhan,11735191,Rising Legends,3,3,2,2,0.67,0,66.67,3,RHB,0,0,0,0
+40571263,Rajveer,11735191,Rising Legends,1,1,1,1,1.00,0,20.00,5,RHB,0,0,0,0
+40570929,Priyanshi,11735208,Dominators,2,1,1,1,1.00,0,50.00,2,-,0,0,0,0
+5057407,Praharsh Shah,11735208,Dominators,2,1,1,1,1.00,0,16.67,6,RHB,0,0,0,0
+9834021,Gaurav Suthar,11735197,Death Over Dominators,3,1,1,1,-,1,25.00,4,RHB,0,0,0,0
+40571000,Chintan Shah,11735197,Death Over Dominators,3,1,1,1,-,1,25.00,4,RHB,0,0,0,0
+40570930,Jigar,11735214,Scorpion Kings,2,2,1,1,1.00,1,50.00,2,RHB,0,0,0,0
+40571243,Ritesh,11735202,Kingfisher 11,2,2,1,1,1.00,1,20.00,5,RHB,0,0,0,0
+40570812,Ravi Lohar,11735214,Scorpion Kings,2,2,1,1,1.00,1,20.00,5,LHB,0,0,0,0
+45238049,Nimesh Kadia,11735214,Scorpion Kings,2,2,1,1,0.50,0,25.00,4,RHB,0,0,0,0
+34563478,Meet Mehulbhai Kadia,11735202,Kingfisher 11,2,2,1,1,0.50,0,14.29,7,RHB,0,0,0,0
+33271072,Chauhan Meet,11735202,Kingfisher 11,2,1,0,0,-,0,0.00,1,RHB,0,0,0,0
+40570894,Mehul Kadia,11735214,Scorpion Kings,2,1,0,0,-,1,0.00,2,RHB,0,0,0,0
+29264102,Sarthak,11735191,Rising Legends,3,1,0,0,-,0,0.00,5,RHB,0,0,0,0
+9834033,Montu,11735191,Rising Legends,3,2,0,0,-,1,0.00,1,RHB,0,0,0,0
+40570815,Vishnu Bishnoi,11735197,Death Over Dominators,3,0,0,0,-,0,0,0,RHB,0,0,0,0
+40570813,Rushi,11735197,Death Over Dominators,3,0,0,0,-,0,0,0,RHB,0,0,0,0
+4893613,Bhuvnesh Patel,11735197,Death Over Dominators,3,0,0,0,-,0,0,0,RHB,0,0,0,0

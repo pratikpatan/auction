@@ -722,25 +722,98 @@
       .join("");
   }
 
-  function renderStatsTable(p) {
-    const s1 = p.season1;
-    const s2 = p.season2;
-    const cell = (s, k) => (s && s[k] !== undefined && s[k] !== "" ? s[k] : "—");
-    const rows = [
-      ["Matches", cell(s1, "total_match"), cell(s2, "total_match")],
-      ["Innings", cell(s1, "innings"), cell(s2, "innings")],
-      ["Runs", cell(s1, "total_runs"), cell(s2, "total_runs")],
-      ["Highest", cell(s1, "highest_run"), cell(s2, "highest_run")],
-      ["Average", cell(s1, "average"), cell(s2, "average")],
-      ["Strike rate", cell(s1, "strike_rate"), cell(s2, "strike_rate")],
-      ["4s / 6s", `${cell(s1, "4s")}/${cell(s1, "6s")}`, `${cell(s2, "4s")}/${cell(s2, "6s")}`],
-      ["Team", cell(s1, "team_name"), cell(s2, "team_name")],
-    ];
+  function seasonBattingBlock(s) {
+    if (!s || typeof s !== "object") return null;
+    if (s.batting && typeof s.batting === "object") return s.batting;
+    if (s.total_runs !== undefined || s.total_match !== undefined) return s;
+    return null;
+  }
+
+  function seasonBowlingBlock(s) {
+    if (!s || typeof s !== "object") return null;
+    return s.bowling && typeof s.bowling === "object" ? s.bowling : null;
+  }
+
+  function seasonFieldingBlock(s) {
+    if (!s || typeof s !== "object") return null;
+    return s.fielding && typeof s.fielding === "object" ? s.fielding : null;
+  }
+
+  function seasonMvpBlock(s) {
+    if (!s || typeof s !== "object") return null;
+    return s.mvp && typeof s.mvp === "object" ? s.mvp : null;
+  }
+
+  function statCell(obj, key) {
+    if (!obj || obj[key] === undefined || obj[key] === null || String(obj[key]).trim() === "") return "—";
+    return String(obj[key]);
+  }
+
+  function twoColTable(rows) {
     return `
       <table class="stats-table">
         <thead><tr><th>Stat</th><th>${SEASON_LABELS[0]}</th><th>${SEASON_LABELS[1]}</th></tr></thead>
         <tbody>${rows.map(([a, b, c]) => statRow(a, b, c)).join("")}</tbody>
       </table>`;
+  }
+
+  /** Batting, bowling, fielding in meta column; MVP under photo (see renderPlayerCard). */
+  function renderPlayerStatsBlocks(p) {
+    const s1 = p.season1;
+    const s2 = p.season2;
+    const b1 = seasonBattingBlock(s1);
+    const b2 = seasonBattingBlock(s2);
+    const batRows = [
+      ["Matches", statCell(b1, "total_match"), statCell(b2, "total_match")],
+      ["Runs", statCell(b1, "total_runs"), statCell(b2, "total_runs")],
+      ["Average", statCell(b1, "average"), statCell(b2, "average")],
+      ["Strike rate", statCell(b1, "strike_rate"), statCell(b2, "strike_rate")],
+      ["4s / 6s", `${statCell(b1, "4s")}/${statCell(b1, "6s")}`, `${statCell(b2, "4s")}/${statCell(b2, "6s")}`],
+    ];
+    const w1 = seasonBowlingBlock(s1);
+    const w2 = seasonBowlingBlock(s2);
+    const bowlRows = [
+      ["Matches", statCell(w1, "total_match"), statCell(w2, "total_match")],
+      ["Wickets", statCell(w1, "total_wickets"), statCell(w2, "total_wickets")],
+      ["Economy", statCell(w1, "economy"), statCell(w2, "economy")],
+      ["Avg", statCell(w1, "avg"), statCell(w2, "avg")],
+    ];
+    const f1 = seasonFieldingBlock(s1);
+    const f2 = seasonFieldingBlock(s2);
+    const fieldRows = [["Total dismissals", statCell(f1, "total_dismissal"), statCell(f2, "total_dismissal")]];
+    const m1 = seasonMvpBlock(s1);
+    const m2 = seasonMvpBlock(s2);
+    const mvpRows = [
+      ["Batting pts", statCell(m1, "batting"), statCell(m2, "batting")],
+      ["Bowling pts", statCell(m1, "bowling"), statCell(m2, "bowling")],
+      ["Fielding pts", statCell(m1, "fielding"), statCell(m2, "fielding")],
+      ["Total MVP", statCell(m1, "total"), statCell(m2, "total")],
+    ];
+    const mainParts = [];
+    if (b1 || b2) {
+      mainParts.push(`<div class="stats-block"><h4 class="stats-section-title">Batting</h4>${twoColTable(batRows)}</div>`);
+    }
+    if (w1 || w2) {
+      mainParts.push(`<div class="stats-block"><h4 class="stats-section-title">Bowling</h4>${twoColTable(bowlRows)}</div>`);
+    }
+    if (f1 || f2) {
+      mainParts.push(`<div class="stats-block"><h4 class="stats-section-title">Fielding</h4>${twoColTable(fieldRows)}</div>`);
+    }
+    const belowParts = [];
+    if (m1 || m2) {
+      belowParts.push(`<div class="stats-block"><h4 class="stats-section-title">MVP (fantasy)</h4>${twoColTable(mvpRows)}</div>`);
+    }
+    let main = "";
+    if (mainParts.length) {
+      main = `<div class="stats-stack">${mainParts.join("")}</div>`;
+    } else if (!belowParts.length) {
+      main = `<p class="sub">No season stats for this player.</p>`;
+    }
+    const below =
+      belowParts.length > 0
+        ? `<div class="stats-wrap stats-wrap--below-photo"><div class="stats-stack">${belowParts.join("")}</div></div>`
+        : "";
+    return { main, below };
   }
 
   function renderPlayerCard() {
@@ -762,17 +835,21 @@
       return;
     }
     const r = rulesFor(p.group);
+    const stats = renderPlayerStatsBlocks(p);
 
     board.innerHTML = `
       <div class="player-grid">
-        <div class="photo-wrap">
-          ${playerPhotoImgTag(p, "player-photo", "")}
-          <span class="grp-badge" style="--gb:${r.color}">${p.group} · ${r.label}</span>
+        <div class="photo-column">
+          <div class="photo-wrap">
+            ${playerPhotoImgTag(p, "player-photo", "")}
+            <span class="grp-badge" style="--gb:${r.color}">${p.group} · ${r.label}</span>
+          </div>
+          ${stats.below}
         </div>
         <div class="player-meta">
           <h2>${escapeHtml(p.name)}</h2>
           <p class="sub">Base ${money(r.base)} · Min increment ${money(r.step)}</p>
-          <div class="stats-wrap">${renderStatsTable(p)}</div>
+          ${stats.main ? `<div class="stats-wrap">${stats.main}</div>` : ""}
         </div>
       </div>`;
   }
@@ -976,10 +1053,14 @@
             p.id
           )}">Remove</button>`;
         }
+        const mv1 = statCell(seasonMvpBlock(p.season1), "total");
+        const mv2 = statCell(seasonMvpBlock(p.season2), "total");
         return `<tr class="${st.cls}">
           <td>${i + 1}</td>
           <td>${escapeHtml(p.name)}</td>
           <td><span class="plist-badge" style="--gb:${r.color}">${p.group} · ${r.label}</span></td>
+          <td class="plist-mvp">${escapeHtml(mv1)}</td>
+          <td class="plist-mvp">${escapeHtml(mv2)}</td>
           <td class="plist-purse">${money(r.base)} · +${money(r.step)}</td>
           <td>${escapeHtml(st.label)}</td>
           <td class="plist-actions">${actionCell}</td>
@@ -988,7 +1069,7 @@
       .join("");
     const active = players.length - state.removedIds.size;
     body.innerHTML = `<table class="player-list-table">
-      <thead><tr><th>#</th><th>Player</th><th>Group</th><th>Base · step</th><th>Status</th><th>Pool</th></tr></thead>
+      <thead><tr><th>#</th><th>Player</th><th>Group</th><th>S1 MVP</th><th>S2 MVP</th><th>Base · step</th><th>Status</th><th>Pool</th></tr></thead>
       <tbody>${rows}</tbody></table>
       <p class="plist-foot">${active} active in pool (${state.removedIds.size} removed). Row order in your CSV is the auction order. Default roster comes from <code>data/players.json</code> (rebuild with <code>build_players.py</code>).</p>`;
   }
